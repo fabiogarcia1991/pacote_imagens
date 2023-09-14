@@ -1,0 +1,83 @@
+# First comments:
+
+'''
+
+Prototype of an image processing package. The following modules were used: cv2,
+numpy and skimage.
+
+'''
+
+__init.py__
+
+  loading.py
+  processing.py
+
+
+# carregamento das imagens (loading.py)
+
+import cv2
+
+def load_image(image):
+    if image is None:
+        print('Could not read image.')
+    else:
+        cv2.imshow('image', image)
+        cv2.waitKey(0)
+
+# processamento das imagens (processing.py)
+
+import cv2
+import numpy as np
+import skimage
+from skimage.color import rgb2hsv, rgb2gray, gray2rgb
+
+def apply_filter(image):
+    kernel1 = np.array([[0,0,0],
+                        [0,1,0],
+                        [0,0,0]])
+
+    identity = cv2.filter2D(src=image, ddepth=-1, kernel=kernel1)
+
+    cv2.imshow('Original', image)
+    cv2.imshow('2D effect', identity)
+    cv2.waitKey(0)
+
+
+def hsv_filter(image):
+    hsv_img = rgb2hsv(image)
+    cv2.imshow('image', hsv_img)
+    cv2.waitKey(0)
+
+
+def grey_filter(image):
+    grey_img = rgb2gray(image)
+    cv2.imshow('grey', grey_img)
+    cv2.waitKey(0)
+
+
+def rgb_filter(image):
+    rgb_img = gray2rgb(image)
+    cv2.imshow('rgb', rgb_img)
+    cv2.waitKey(0)
+
+
+# Informações sobre o pacote (setup.py)
+
+from setuptools import setup, find_packages
+
+setup(
+    name='image_simple_processing',
+    version='0.0.1',
+    author='Fábio de Souza Garcia',
+    author_email='fabiogarcia.bio@gmail.com',
+    description='A test package to load images and adjust colours and dimensions',
+    long_description='''This package combines some functions from other modules as cv2,
+                     numpy and skimage. The main objective is to test images and different 
+                     color patterns. This is just the first version, so the package will be 
+                     improved to achieve more functionalities.''',
+    url='',
+    packages=find_packages(cv2, np, skimage),
+    requires=['opencv_python', 'scikit-image','numpy']
+)
+
+
